@@ -82,3 +82,60 @@ console.log(res);
 ```
 
 ### you will get the result of the validation
+
+```
+this will be the mapped JSON for the target
+
+{
+    k1: "string",
+    k2: "number",
+    k3: "boolean",
+    k4: [
+        {
+            x: "number",
+            y: "string"
+        },
+        {
+            x: "string",
+            y: "string"
+        }
+    ],
+    k5: "date",
+    k6: {
+        x: "boolean",
+        y: "date",
+        z: {
+            m: "date",
+            n: "string"
+        }
+    }
+
+}
+
+this will be the result JSON for the validation
+
+{
+    k1: true,
+    k2: true,
+    k3: true,
+    k4: [
+        {
+            x: true,
+            y: true 
+        },
+        {
+            x: false,
+            y: true
+        }
+    ],
+    k5: true,
+    k6: {
+        x: true,
+        y: true,
+        z: {
+            m: false ,
+            n: false 
+        }
+    }
+
+}

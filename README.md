@@ -1,6 +1,6 @@
 # json-schema-validator
 
-It is function to validate a JSON object against a specific schema of a JSON.
+It is a function to validate a JSON object against a specific schema of a JSON.
 All we have to do is to define a schema or architechture for the JSON object,
 and validate a JSON against that schema. The function will return a object with
 the types of all of the JSON object that is passed to check and a result object that will show

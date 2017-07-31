@@ -83,7 +83,7 @@ console.log(res);
 
 ### you will get the result of the validation
 
-```
+```javascript
 this will be the mapped JSON for the target
 
 {

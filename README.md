@@ -53,7 +53,7 @@ var validatorObj = JSONSchema(schema); // this will create a jsonSchemaValidator
 ```
 
 #### pass the target json that you want to validate against the schema
-```
+```javascript
 var res = validatorObj.validate({
     k1: '1',
     k2: 10,

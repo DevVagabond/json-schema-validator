@@ -9,7 +9,7 @@ if there is any mismatch with the schema.
 ##Example
 
 Firset define a schema:
-```
+```javascript
 var schema = {
     k1: {
         type: String            //means 'k1' will be of type String

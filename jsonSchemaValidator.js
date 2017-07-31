@@ -1,7 +1,7 @@
-
 function JSONSchema(schema) {
     var self = this;
     self.schema = schema;
+
     function JSONSchema(schema) {
         self.schema = schema;
     }
@@ -17,10 +17,10 @@ function JSONSchema(schema) {
         "boolean": true,
 
     }
-    self.isArray = function (a) {
+    self.isArray = function(a) {
         return (Array.isArray(a)) ? 'array' : false;
     }
-    self.isDate = function (a) {
+    self.isDate = function(a) {
         // console.log(!!new Date(a).getTime());
         return (!!new Date(a).getTime()) ? 'date' : false;
     }
@@ -28,21 +28,21 @@ function JSONSchema(schema) {
     self.result = {};
 
 
-    self.mapTargetJSON = function (mapObj, mappingScope) {
+    self.mapTargetJSON = function(mapObj, mappingScope) {
         /**
          * Cheking for Array type elements
          */
         if (Array.isArray(mapObj)) {
-            mapObj.forEach(function (elem, index) {
+            mapObj.forEach(function(elem, index) {
                 this.pushed = false;
                 (primitiveType[typeof elem]) &&
-                    (this.pushed = true) &&
-                    (mappingScope.push(typeof elem));
+                (this.pushed = true) &&
+                (mappingScope.push(typeof elem));
 
                 (isDate(elem)) &&
-                    (!this.pushed) &&
-                    (this.pushed = true) &&
-                    (mappingScope.push(isDate(elem)));
+                (!this.pushed) &&
+                (this.pushed = true) &&
+                (mappingScope.push(isDate(elem)));
 
                 if (!this.pushed && Array.isArray(elem)) {
                     mappingScope.push([]);
@@ -51,8 +51,8 @@ function JSONSchema(schema) {
                 }
 
                 (!this.pushed) &&
-                    (mappingScope.push({})) &&
-                    (mapTargetJSON(elem, mappingScope[index]))
+                (mappingScope.push({})) &&
+                (mapTargetJSON(elem, mappingScope[index]))
 
             });
 
@@ -60,21 +60,21 @@ function JSONSchema(schema) {
             /**
              * checking for object literels
              */
-            Object.keys(mapObj).forEach(function (key, index) {
+            Object.keys(mapObj).forEach(function(key, index) {
                 mappingScope[key] = primitiveType[typeof mapObj[key]] ? typeof mapObj[key] : false;
 
 
                 (!mappingScope[key]) &&
-                    (isArray(mapObj[key])) &&
-                    (mappingScope[key] = []) &&
-                    (mapTargetJSON(mapObj[key], mappingScope[key]));
+                (isArray(mapObj[key])) &&
+                (mappingScope[key] = []) &&
+                (mapTargetJSON(mapObj[key], mappingScope[key]));
 
 
 
                 (!mappingScope[key]) && (mappingScope[key] = isDate(mapObj[key]));
                 (!mappingScope[key]) &&
-                    (mappingScope[key] = {}) &&
-                    (mapTargetJSON(mapObj[key], mappingScope[key]));
+                (mappingScope[key] = {}) &&
+                (mapTargetJSON(mapObj[key], mappingScope[key]));
             });
         }
 
@@ -84,31 +84,31 @@ function JSONSchema(schema) {
     /**
      * validation for the target json
      */
-    self.validateTargetJSON = function (schemaScope, mappingScope, resultScope) {
+    self.validateTargetJSON = function(schemaScope, mappingScope, resultScope) {
         // console.log(schemaScope)
 
         if (Array.isArray(schemaScope) && Array.isArray(mappingScope)) {
             // console.log(schemaScope);
-            mappingScope.forEach(function (scope, index) {
+            mappingScope.forEach(function(scope, index) {
                 (resultScope.push({})) &&
-                    (validateTargetJSON(schemaScope[0], mappingScope[index], resultScope[index]));
+                (validateTargetJSON(schemaScope[0], mappingScope[index], resultScope[index]));
 
             });
 
         } else {
-            Object.keys(schemaScope).forEach(function (key, index) {
+            Object.keys(schemaScope).forEach(function(key, index) {
                 resultScope[key] = false;
                 this.checked = false;
                 (schemaScope[key].type) &&
-                    (this.checked = true) &&
-                    (schemaScope[key].type.name.toLowerCase() === mappingScope[key]) &&
-                    (resultScope[key] = true);
+                (this.checked = true) &&
+                (schemaScope[key].type.name.toLowerCase() === mappingScope[key]) &&
+                (resultScope[key] = true);
 
                 (!resultScope[key] && !this.checked) &&
-                    (isArray(schemaScope[key])) &&
-                    (this.checked = true) &&
-                    (resultScope[key] = []) &&
-                    (validateTargetJSON(schemaScope[key], mappingScope[key], resultScope[key]));
+                (isArray(schemaScope[key])) &&
+                (this.checked = true) &&
+                (resultScope[key] = []) &&
+                (validateTargetJSON(schemaScope[key], mappingScope[key], resultScope[key]));
 
 
                 if (!resultScope[key] && !this.checked) {
@@ -124,8 +124,8 @@ function JSONSchema(schema) {
         mapTargetJSON(self.response, self.mappedJSON);
         validateTargetJSON(self.schema, self.mappedJSON, self.result);
         return {
-            'mappedJSON' : self.mappedJSON,
-            'result' : self.result
+            'mappedJSON': self.mappedJSON,
+            'result': self.result
         }
     }
 
